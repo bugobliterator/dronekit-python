@@ -2123,6 +2123,8 @@ class Vehicle(HasObservers):
         while True:
             if self._flightmode not in [None, 'INITIALISING', 'MAV']:
                 break
+            if monotonic.monotonic() - start > heartbeat_timeout:
+                raise APIException('Timeout in initializing connection.')
             time.sleep(0.1)
 
         # Initialize data stream.
